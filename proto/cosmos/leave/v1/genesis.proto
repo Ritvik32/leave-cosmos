@@ -1,0 +1,15 @@
+//init and export genesis
+
+syntax="proto3";
+package cosmos.leave.v1;
+option go_package="x/leave/types";
+import "cosmos/leave/v1/state.proto";
+
+import "gogoproto/gogo.proto";
+
+
+message GenesisState{
+    repeated Student student=1 [(gogoproto.nullable) = false];
+    repeated Admin admin=2 [(gogoproto.nullable) = false];
+    repeated Leave leave=3 [(gogoproto.nullable) = false];
+}

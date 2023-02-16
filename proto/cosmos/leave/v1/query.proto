@@ -1,0 +1,37 @@
+//all read rpc calls
+syntax="proto3";
+package cosmos.leave.v1;
+option go_package="x/leave/types";
+import "cosmos/leave/v1/state.proto";
+
+
+message GetStudentRequest{
+    string id =1;
+}
+
+message GetStudentResponse{
+    Student student=1;
+
+}
+
+message ListAllLeavesRequest{
+    
+}
+message ListAllLeavesResponse{
+    repeated Leave leave=1;
+}
+
+message ListStudentLeaveRequest{
+    string id=1;
+}
+message ListStudentLeaveResponse{
+    repeated Leave leave=1;
+}
+
+service QueryMsg{
+    rpc GetStudent(GetStudentRequest) returns (GetStudentResponse);
+    rpc ListAllLeave(ListAllLeavesRequest) returns (ListAllLeavesResponse);
+    rpc ListStudentLeave(ListStudentLeaveRequest) returns (ListStudentLeaveResponse);
+
+}
+

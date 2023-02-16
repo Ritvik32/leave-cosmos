@@ -1,0 +1,64 @@
+///write rpc
+
+syntax="proto3";
+package cosmos.leave.v1;
+option go_package="x/leave/types";
+import "cosmos/leave/v1/state.proto";
+
+message ApplyLeaveRequest {
+    
+    string studentaddress = 1;
+    string reason = 2;
+    string from=3;
+    string to=4;
+}
+
+message ApplyLeaveResponse {
+    Leave leave=1;
+}
+
+message AddStudentRequest {
+    
+    string id=1;
+    string name=2;
+    string address=3;
+    string admin_address=4;
+   
+}
+message AddStudentResponse{
+    Student student=1;
+}
+
+message AddAdminRequest{
+    string id=1;
+    string admin_address=2;
+    string name=3;
+}
+
+
+message AddAdminResponse{
+
+Admin admin=1;
+
+}
+message AcceptLeaveRequest{
+    string admin_address=1;
+    int64 leaveid=2; //add a counter to leave id while implementing 
+    LeaveStatus status = 3;
+}
+
+message AcceptLeaveResponse{
+    Leave leave=1;
+}
+
+
+service TxMsg{
+    //adds a new admin
+    rpc RegisterAdmin(AddAdminRequest) returns (AddAdminResponse);
+    //add new student
+    rpc AddStudent(AddStudentRequest) returns (AddStudentResponse);
+    //apply leave
+    rpc ApplyLeave(ApplyLeaveRequest) returns (ApplyLeaveResponse);
+    rpc AcceptLeave(AcceptLeaveRequest) returns (AcceptLeaveResponse);
+
+}
