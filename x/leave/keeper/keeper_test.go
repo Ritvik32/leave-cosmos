@@ -86,9 +86,9 @@ func (s *TestSuite) TestSetStudent() {
 	fmt.Println(res)
 }
 
-func (s *TestSuite) TestGetStudent() {
-
-}
+// func (s *TestSuite) TestGetStudent() {
+// 
+// }
 func (s *TestSuite) ApplyLeave() {
 
 	leave := types.Leave{
