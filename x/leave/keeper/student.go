@@ -22,9 +22,15 @@ func (k Keeper) SetStudent(ctx sdk.Context, a types.Student) error {
 	return nil
 
 }
-func (k Keeper) GetStudent(ctx sdk.Context) (a types.Student) {
+func (k Keeper) GetStudent(ctx sdk.Context, id string) (a types.Student) {
 	store := ctx.KVStore(k.storeKey)
-	bz := store.Get([]byte(a.Id))
+	bz := store.Get([]byte(id))
+	classID := id
+	key := make([]byte, len(types.PrefstudentId)+len(classID))
+	copy(key, types.PrefstudentId)
+	copy(key[len(types.PrefstudentId):], []byte(classID))
+	store.Set(key, bz)
+
 	k.cdc.MustUnmarshal(bz, &a)
 	return a
 }
