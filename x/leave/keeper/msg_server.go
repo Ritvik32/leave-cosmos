@@ -6,30 +6,30 @@ import (
 	"leave-cosmos/x/leave/types"
 )
 
-var _ types.TxMsgServer = &msgServer{} ///without & its not coming
+var _ types.TxMsgServer = Keeper{} ///without & its not coming
 
 type msgServer struct {
 	Keeper
 	types.UnimplementedTxMsgServer
 }
 
-func NewMsgServerImpl(k Keeper) types.TxMsgServer {
-	return &msgServer{
-		Keeper: k,
-	}
-}
-func (k msgServer) AddStudent(context.Context, *types.AddStudentRequest) (*types.AddStudentResponse, error) {
+// func NewMsgServerImpl(k Keeper) types.TxMsgServer {
+// return &msgServer{
+// Keeper: k,
+// }
+// }
+func (k Keeper) AddStudent(context.Context, *types.AddStudentRequest) (*types.AddStudentResponse, error) {
 	return &types.AddStudentResponse{}, nil
 }
 
-func (k msgServer) AddAdmin(context.Context, *types.AddAdminRequest) (*types.AddAdminResponse, error) {
+func (k Keeper) RegisterAdmin(context.Context, *types.AddAdminRequest) (*types.AddAdminResponse, error) {
 	return &types.AddAdminResponse{}, nil
 }
 
-func (k msgServer) ApplyLeave(context.Context, *types.ApplyLeaveRequest) (*types.ApplyLeaveResponse, error) {
+func (k Keeper) ApplyLeave(context.Context, *types.ApplyLeaveRequest) (*types.ApplyLeaveResponse, error) {
 	return &types.ApplyLeaveResponse{}, nil
 }
 
-func (k msgServer) AcceptLeave(context.Context, *types.AcceptLeaveRequest) (*types.AcceptLeaveResponse, error) {
+func (k Keeper) AcceptLeave(context.Context, *types.AcceptLeaveRequest) (*types.AcceptLeaveResponse, error) {
 	return &types.AcceptLeaveResponse{}, nil
 }

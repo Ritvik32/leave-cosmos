@@ -87,7 +87,7 @@ func (s *TestSuite) TestSetStudent() {
 }
 
 // func (s *TestSuite) TestGetStudent() {
-// 
+//
 // }
 func (s *TestSuite) ApplyLeave() {
 

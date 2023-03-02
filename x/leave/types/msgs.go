@@ -31,9 +31,9 @@ func (msg AddAdminRequest) Type() string {
 	return TypeAddAdmin
 }
 func (msg AddAdminRequest) GetSignBytes() []byte {
-	bz := ModuleCdc.MustMarshalJSON(&msg)
-	return sdk.MustSortJSON(bz)
-
+	//bz := ModuleCdc.MustMarshalJSON(&msg)
+	//return sdk.MustSortJSON(bz)
+	return []byte{}
 }
 func (msg AddAdminRequest) GetSigners() []sdk.AccAddress {
 	valAddr, _ := sdk.AccAddressFromBech32(msg.AdminAddress) //ValAddressFromBech32(msg.AdminAddress)
@@ -47,7 +47,7 @@ func (msg AddAdminRequest) ValidateBasic() error {
 	return nil
 }
 
-/////////////////////////////////////////////////////////////////////////////////////
+// ///////////////////////////////////////////////////////////////////////////////////
 func NewAddStudentReq(accountAddr sdk.AccAddress) *AddStudentRequest {
 	return &AddStudentRequest{
 		AdminAddress: accountAddr.String(),
@@ -61,8 +61,9 @@ func (msg AddStudentRequest) Type() string {
 	return TypeAddStudent
 }
 func (msg AddStudentRequest) GetSignBytes() []byte {
-	bz := ModuleCdc.MustMarshalJSON(&msg)
-	return sdk.MustSortJSON(bz)
+	// bz := ModuleCdc.MustMarshalJSON(&msg)
+	// return sdk.MustSortJSON(bz)
+	return []byte{}
 
 }
 func (msg AddStudentRequest) GetSigners() []sdk.AccAddress {
@@ -78,7 +79,7 @@ func (msg AddStudentRequest) ValidateBasic() error {
 
 }
 
-////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////////////////////////////
 func NewApplyReq(accountAddr sdk.AccAddress) *ApplyLeaveRequest {
 	return &ApplyLeaveRequest{
 		Studentaddress: accountAddr.String(),
@@ -92,8 +93,9 @@ func (msg ApplyLeaveRequest) Type() string {
 	return TypeApplyLeave
 }
 func (msg ApplyLeaveRequest) GetSignBytes() []byte {
-	bz := ModuleCdc.MustMarshalJSON(&msg)
-	return sdk.MustSortJSON(bz)
+	// bz := ModuleCdc.MustMarshalJSON(&msg)
+	// return sdk.MustSortJSON(bz)
+	return []byte{}
 
 }
 func (msg ApplyLeaveRequest) GetSigners() []sdk.AccAddress {
@@ -124,8 +126,7 @@ func (msg AcceptLeaveRequest) Type() string {
 	return TypeAcceptLeave
 }
 func (msg AcceptLeaveRequest) GetSignBytes() []byte {
-	bz := ModuleCdc.MustMarshalJSON(&msg)
-	return sdk.MustSortJSON(bz)
+	return []byte{}
 
 }
 func (msg AcceptLeaveRequest) GetSigners() []sdk.AccAddress {

@@ -9,8 +9,8 @@ proto-gen:
 	@echo "Generating Protobuf files"
 	@if docker ps -a --format '{{.Names}}' | grep -Eq "^${containerProtoGen}$$"; then docker start -a $(containerProtoGen); else docker run --name $(containerProtoGen) -v $(CURDIR):/workspace --workdir /workspace $(protoImageName) \
 		sh ./scripts/protocgen.sh; fi
-      
 	go mod tidy
+
 
 
 #!/usr/bin/make -f
@@ -30,7 +30,7 @@ MOCKS_DIR = $(CURDIR)/tests/mocks
 DOCKER := $(shell which docker)
 DOCKER_BUF := $(DOCKER) run --rm -v $(CURDIR):/workspace --workdir /workspace bufbuild/buf
 
-export GO111MODULE=on
+export GO111MODULE = on
 
 # process build tags
 
@@ -125,7 +125,7 @@ build-linux:
 	GOOS=linux GOARCH=amd64 LEDGER_ENABLED=false $(MAKE) build
 
 $(BUILD_TARGETS): go.sum $(BUILDDIR)/
-	go $@ $(BUILD_FLAGS) $(BUILD_ARGS) ./...
+	go $@ -mod=readonly $(BUILD_FLAGS) $(BUILD_ARGS) ./...
 
 $(BUILDDIR)/:
 	mkdir -p $(BUILDDIR)/
