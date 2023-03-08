@@ -1,6 +1,8 @@
 package types
 
 import (
+	//"leave-cosmos/x/leave/types"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -18,10 +20,8 @@ var _ sdk.Msg = &AddStudentRequest{}
 var _ sdk.Msg = &ApplyLeaveRequest{}
 var _ sdk.Msg = &AcceptLeaveRequest{}
 
-func NewAddAdminReq(accAddr sdk.AccAddress) *AddAdminRequest {
-	return &AddAdminRequest{
-		AdminAddress: accAddr.String(),
-	}
+func NewAddAdminReq(msg AddAdminRequest) *AddAdminRequest {
+	return &msg
 
 }
 func (msg AddAdminRequest) Route() string {
@@ -48,9 +48,12 @@ func (msg AddAdminRequest) ValidateBasic() error {
 }
 
 // ///////////////////////////////////////////////////////////////////////////////////
-func NewAddStudentReq(accountAddr sdk.AccAddress) *AddStudentRequest {
+func NewAddStudentReq(msg AddStudentRequest) *AddStudentRequest {
 	return &AddStudentRequest{
-		AdminAddress: accountAddr.String(),
+		Id:           msg.Id,
+		Name:         msg.Name,
+		Address:      msg.Address,
+		AdminAddress: msg.AdminAddress,
 	}
 
 }
@@ -72,6 +75,7 @@ func (msg AddStudentRequest) GetSigners() []sdk.AccAddress {
 }
 
 func (msg AddStudentRequest) ValidateBasic() error {
+
 	if _, err := sdk.AccAddressFromBech32(msg.AdminAddress); err != nil {
 		return sdkerrors.ErrInvalidAddress.Wrapf("account input address: %s", err)
 	}
@@ -80,10 +84,11 @@ func (msg AddStudentRequest) ValidateBasic() error {
 }
 
 // //////////////////////////////////////////////////////////////////////////////////
-func NewApplyReq(accountAddr sdk.AccAddress) *ApplyLeaveRequest {
-	return &ApplyLeaveRequest{
-		Studentaddress: accountAddr.String(),
-	}
+func NewApplyReq(msg ApplyLeaveRequest) *ApplyLeaveRequest {
+	////return &ApplyLeaveRequest{
+	//Studentaddress: accountAddr.String(),
+	//}
+	return &msg
 
 }
 func (msg ApplyLeaveRequest) Route() string {
@@ -99,7 +104,7 @@ func (msg ApplyLeaveRequest) GetSignBytes() []byte {
 
 }
 func (msg ApplyLeaveRequest) GetSigners() []sdk.AccAddress {
-	valAddr, _ := sdk.AccAddressFromBech32(msg.Studentaddress)
+	valAddr, _ := sdk.AccAddressFromBech32(msg.Adminaddress)
 	return []sdk.AccAddress{sdk.AccAddress(valAddr)}
 }
 
@@ -113,9 +118,11 @@ func (msg ApplyLeaveRequest) ValidateBasic() error {
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-func NewAcceptLeaveReq(accountAddr sdk.AccAddress) *AcceptLeaveRequest {
+func NewAcceptLeaveReq(msg AcceptLeaveRequest) *AcceptLeaveRequest {
+	//leave := Leave{}
 	return &AcceptLeaveRequest{
-		AdminAddress: accountAddr.String(),
+
+		Leave: msg.Leave,
 	}
 
 }
@@ -130,12 +137,12 @@ func (msg AcceptLeaveRequest) GetSignBytes() []byte {
 
 }
 func (msg AcceptLeaveRequest) GetSigners() []sdk.AccAddress {
-	valAddr, _ := sdk.AccAddressFromBech32(msg.AdminAddress)
+	valAddr, _ := sdk.AccAddressFromBech32(msg.Leave.Adminaddress)
 	return []sdk.AccAddress{sdk.AccAddress(valAddr)}
 }
 
 func (msg AcceptLeaveRequest) ValidateBasic() error {
-	if _, err := sdk.AccAddressFromBech32(msg.AdminAddress); err != nil {
+	if _, err := sdk.AccAddressFromBech32(msg.Leave.Adminaddress); err != nil {
 		return sdkerrors.ErrInvalidAddress.Wrapf("account input address: %s", err)
 	}
 	return nil

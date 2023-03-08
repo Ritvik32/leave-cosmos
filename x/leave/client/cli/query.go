@@ -2,7 +2,6 @@ package cli
 
 import (
 	"leave-cosmos/x/leave/types"
-	"strconv"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
@@ -18,26 +17,29 @@ func GetQueryCmd() *cobra.Command {
 	}
 	cmd.AddCommand(
 		GetLeave(),
-		GetAllLeave(),
 		GetStudent(),
+		GetAllStudent(),
+		GetAllLeave(),
+		LeaveStatus(),
+		GetAdmin(),
 	)
 	return cmd
 }
 func GetLeave() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "get user specified leave status",
-		Short: "studentid||leaveid",
-		Long:  "query commands",
+		Use:     "Get-Student-Leave [StudentAddress]",
+		Short:   "Used to list student leave",
+		Long:    "Used to list student leave for specific user by specifying the student_id",
+		Example: "./simd q leave Get-Student-Leave cosmos1dcfxmfchss6r3rlqly8m3jc05538w7xgvtmyua",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientQueryContext(cmd)
 			if err != nil {
 				return err
 			}
 			queryClient := types.NewQueryMsgClient(clientCtx)
-			num, _ := strconv.Atoi(args[1])
-			leave := types.ListStudentLeaveRequest{
-				Id:      args[0],
-				Leaveid: int64(num),
+			//num, _ := strconv.Atoi(args[1])
+			leave := types.ListStudentLeaveRequest{ //types.ListStudentLeaveRequest
+				Stuaddress: args[0],
 			}
 			res, err := queryClient.ListStudentLeave(cmd.Context(), &leave)
 			if err != nil {
@@ -51,16 +53,19 @@ func GetLeave() *cobra.Command {
 }
 func GetAllLeave() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "list all leaves",
-		Short: "list all leaves",
-		Long:  "list all leaves",
+		Use:   "List-All-Leave",
+		Short: "list all the leaves",
+		Long:  "list all leaves for the student",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientQueryContext(cmd)
 			if err != nil {
 				return err
 			}
 			queryClient := types.NewQueryMsgClient(clientCtx)
-			res, err := queryClient.ListAllLeave(cmd.Context(), &types.ListAllLeavesRequest{})
+			leave := types.ListAllLeavesRequest{
+				StudentId: args[0],
+			}
+			res, err := queryClient.ListAllLeave(cmd.Context(), &leave)
 			if err != nil {
 				return err
 			}
@@ -72,9 +77,10 @@ func GetAllLeave() *cobra.Command {
 }
 func GetStudent() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "get student details",
-		Short: "StudentId|| as a parameter",
-		Long:  "get student details by student_id as string as a parameter",
+		Use:     "Get-Student [StudentAddress]",
+		Short:   "used to retrieve student data",
+		Long:    "get student details by student_id as string as a parameter",
+		Example: "./simd q leave Get-Student cosmos1dcfxmfchss6r3rlqly8m3jc05538w7xgvtmyua",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientQueryContext(cmd)
 			if err != nil {
@@ -85,6 +91,83 @@ func GetStudent() *cobra.Command {
 				Id: args[0],
 			}
 			res, err := queryClient.GetStudentDetails(cmd.Context(), &student)
+			if err != nil {
+				return err
+			}
+			return clientCtx.PrintProto(res)
+		},
+	}
+	flags.AddQueryFlagsToCmd(cmd)
+	return cmd
+}
+
+func GetAllStudent() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:     "Get-All-Student",
+		Short:   "used to retrieve data regarding all the students",
+		Long:    "get  all student details by student_id as string as a parameter",
+		Example: "./simd q leave Get-All-Student",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			clientCtx, err := client.GetClientQueryContext(cmd)
+			if err != nil {
+				return err
+			}
+			queryClient := types.NewQueryMsgClient(clientCtx)
+			// student := types.GetStudentRequest{
+			// Id: args[0],
+			// }
+			res, err := queryClient.GetAllStudentDetails(cmd.Context(), &types.GetStudentRequest{})
+			if err != nil {
+				return err
+			}
+			return clientCtx.PrintProto(res)
+		},
+	}
+	flags.AddQueryFlagsToCmd(cmd)
+	return cmd
+}
+func LeaveStatus() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:     "Leave-Status [StudentAddress]",
+		Short:   "get status of student leave",
+		Long:    "get leave status of the leave",
+		Example: "./simd q leave Leave-Status cosmos1dcfxmfchss6r3rlqly8m3jc05538w7xgvtmyua",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			clientCtx, err := client.GetClientQueryContext(cmd)
+			if err != nil {
+				return err
+			}
+			queryClient := types.NewQueryMsgClient(clientCtx)
+			student := types.LeaveStatusRequest{
+				StudentAddress: args[0],
+			}
+			res, err := queryClient.GetLeaveStatus(cmd.Context(), &student)
+			if err != nil {
+				return err
+			}
+			return clientCtx.PrintProto(res)
+		},
+	}
+	flags.AddQueryFlagsToCmd(cmd)
+	return cmd
+}
+
+func GetAdmin() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:     "get-admin [AdminAddress]",
+		Short:   "Used to get the admin details",
+		Long:    "get leave status of the leave",
+		Example: "./simd q leave get-admin cosmos14qypg0485c6mclvkqfwwwlryy0kqa3hyycdeul",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			clientCtx, err := client.GetClientQueryContext(cmd)
+			if err != nil {
+				return err
+			}
+			queryClient := types.NewQueryMsgClient(clientCtx)
+			admin := types.GetAdminRequest{
+				Adminaddress: args[0],
+			}
+			res, err := queryClient.GetAdminDetails(cmd.Context(), &admin)
 			if err != nil {
 				return err
 			}

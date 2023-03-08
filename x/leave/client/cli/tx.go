@@ -2,7 +2,6 @@ package cli
 
 import (
 	"leave-cosmos/x/leave/types"
-	"strconv"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
@@ -27,20 +26,23 @@ func NewTxCmd() *cobra.Command {
 }
 func NewAddAdmin() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "to add an admin",
-		Short: "id||name||address",
-		Long:  "add admin",
+		Use:     "Add-Admin [Id] [Name]",
+		Short:   "used to add admin",
+		Long:    "used to add admin",
+		Example: "./simd tx leave Add-Admin 1 adminname  --from cosmos14qypg0485c6mclvkqfwwwlryy0kqa3hyycdeul --chain-id testnet",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
 				return err
 			}
+			fromAddress := clientCtx.GetFromAddress().String()
 			admin := types.AddAdminRequest{
 				Id:           args[0],
 				Name:         args[1],
-				AdminAddress: args[2],
+				AdminAddress: fromAddress,
 			}
-			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), &admin)
+			msg := types.NewAddAdminReq(admin)
+			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
 		},
 	}
 	flags.AddTxFlagsToCmd(cmd)
@@ -48,21 +50,24 @@ func NewAddAdmin() *cobra.Command {
 }
 func NewAddStudents() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "to add new students",
-		Short: "student1[id||name||address||admin address]",
-		Long:  "to add new students by that particular admin",
+		Use:     "Add-Student [Id] [Name] [Address]",
+		Short:   "used to add new students",
+		Long:    "to add new students by that particular admin",
+		Example: "./simd tx leave Add-Student s1 stuname cosmos1dcfxmfchss6r3rlqly8m3jc05538w7xgvtmyua --from cosmos14qypg0485c6mclvkqfwwwlryy0kqa3hyycdeul --chain-id testnet",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
 				return err
 			}
-			student := types.AddStudentRequest{
+			fromAddress := clientCtx.GetFromAddress().String()
+			msg := types.AddStudentRequest{
 				Id:           args[0],
 				Name:         args[1],
 				Address:      args[2],
-				AdminAddress: args[3],
+				AdminAddress: fromAddress,
 			}
-			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), &student)
+			// msg := types.NewAddStudentReq(student)
+			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), &msg)
 		},
 	}
 	flags.AddTxFlagsToCmd(cmd)
@@ -70,21 +75,25 @@ func NewAddStudents() *cobra.Command {
 }
 func NewApplyLeave() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "to apply leave",
-		Short: "student_address||Reason||from||to",
-		Long:  "to apply leave  for the student",
+		Use:     "Apply-Leave [Studentaddress] [Reason] [From] [To]",
+		Short:   "used to apply new leave",
+		Long:    "to apply leave  for the student",
+		Example: "./simd tx leave Apply-Leave cosmos1dcfxmfchss6r3rlqly8m3jc05538w7xgvtmyua cold 13-2-23 14-2-23  --from cosmos14qypg0485c6mclvkqfwwwlryy0kqa3hyycdeul --chain-id testnet",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
 				return err
 			}
+			fromAddress := clientCtx.GetFromAddress().String()
 			leave := types.ApplyLeaveRequest{
 				Studentaddress: args[0],
 				Reason:         args[1],
 				From:           args[2],
 				To:             args[3],
+				Adminaddress:   fromAddress,
 			}
-			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), &leave)
+			msg := types.NewApplyReq(leave)
+			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
 		},
 	}
 	flags.AddTxFlagsToCmd(cmd)
@@ -92,21 +101,25 @@ func NewApplyLeave() *cobra.Command {
 }
 func NewAcceptLeave() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "to accept leave",
-		Short: "student_address||Reason||from||to",
-		Long:  "to apply leave  for the student",
+		Use:     "Accept-Leave [StudentAddress]",
+		Short:   "used to accept student leave",
+		Long:    "to accept leave  for the student",
+		Example: "./simd tx leave Accept-Leave cosmos1dcfxmfchss6r3rlqly8m3jc05538w7xgvtmyua --from cosmos14qypg0485c6mclvkqfwwwlryy0kqa3hyycdeul --chain-id testnet",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
 				return err
 			}
-			num, _ := strconv.Atoi(args[1])
-			accept := types.AcceptLeaveRequest{
-				AdminAddress: args[0],
-				Leaveid:      int64(num),
-				Status:       types.LeaveStatus_STATUS_ACCEPTED,
+			fromAddress := clientCtx.GetFromAddress().String()
+			AceptLeave := types.AcceptLeaveRequest{
+				Leave: &types.Leave{
+					Studentaddress: args[0],
+					Adminaddress:   fromAddress,
+					Status:         types.LeaveStatus_STATUS_ACCEPTED,
+				},
 			}
-			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), &accept)
+			msg := types.NewAcceptLeaveReq(AceptLeave)
+			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
 		},
 	}
 	flags.AddTxFlagsToCmd(cmd)

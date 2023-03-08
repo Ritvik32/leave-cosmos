@@ -4,11 +4,12 @@ package cosmos.leave.v1;
 option go_package="x/leave/types";
 
 message Leave {
-    string id=1;
-    string from=2;
-    string to=3;
-    string leaveId=4;
-    LeaveStatus status=5;
+    string Studentaddress=1;
+    string Reason=2;
+    string From=3;
+    string To=4;
+    string Adminaddress=5;
+    LeaveStatus status=6;
 }
 
 
