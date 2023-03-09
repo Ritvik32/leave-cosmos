@@ -29,7 +29,7 @@ func NewAddAdmin() *cobra.Command {
 		Use:     "Add-Admin [Id] [Name]",
 		Short:   "used to add admin",
 		Long:    "used to add admin",
-		Example: "./simd tx leave Add-Admin 1 adminname  --from cosmos14qypg0485c6mclvkqfwwwlryy0kqa3hyycdeul --chain-id testnet",
+		Example: "./lmsd tx leave Add-Admin 1 adminname  --from cosmos14qypg0485c6mclvkqfwwwlryy0kqa3hyycdeul --chain-id testnet",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
@@ -53,7 +53,7 @@ func NewAddStudents() *cobra.Command {
 		Use:     "Add-Student [Id] [Name] [Address]",
 		Short:   "used to add new students",
 		Long:    "to add new students by that particular admin",
-		Example: "./simd tx leave Add-Student s1 stuname cosmos1dcfxmfchss6r3rlqly8m3jc05538w7xgvtmyua --from cosmos14qypg0485c6mclvkqfwwwlryy0kqa3hyycdeul --chain-id testnet",
+		Example: "./lmsd tx leave Add-Student s1 stuname cosmos1dcfxmfchss6r3rlqly8m3jc05538w7xgvtmyua --from cosmos14qypg0485c6mclvkqfwwwlryy0kqa3hyycdeul --chain-id testnet",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
@@ -78,7 +78,7 @@ func NewApplyLeave() *cobra.Command {
 		Use:     "Apply-Leave [Studentaddress] [Reason] [From] [To]",
 		Short:   "used to apply new leave",
 		Long:    "to apply leave  for the student",
-		Example: "./simd tx leave Apply-Leave cosmos1dcfxmfchss6r3rlqly8m3jc05538w7xgvtmyua cold 13-2-23 14-2-23  --from cosmos14qypg0485c6mclvkqfwwwlryy0kqa3hyycdeul --chain-id testnet",
+		Example: "./lmsd tx leave Apply-Leave cosmos1dcfxmfchss6r3rlqly8m3jc05538w7xgvtmyua cold 13-2-23 14-2-23  --from cosmos14qypg0485c6mclvkqfwwwlryy0kqa3hyycdeul --chain-id testnet",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
@@ -104,7 +104,7 @@ func NewAcceptLeave() *cobra.Command {
 		Use:     "Accept-Leave [StudentAddress]",
 		Short:   "used to accept student leave",
 		Long:    "to accept leave  for the student",
-		Example: "./simd tx leave Accept-Leave cosmos1dcfxmfchss6r3rlqly8m3jc05538w7xgvtmyua --from cosmos14qypg0485c6mclvkqfwwwlryy0kqa3hyycdeul --chain-id testnet",
+		Example: "./lmsd tx leave Accept-Leave cosmos1dcfxmfchss6r3rlqly8m3jc05538w7xgvtmyua --from cosmos14qypg0485c6mclvkqfwwwlryy0kqa3hyycdeul --chain-id testnet",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {

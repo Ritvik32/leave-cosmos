@@ -80,7 +80,7 @@ func GetStudent() *cobra.Command {
 		Use:     "Get-Student [StudentAddress]",
 		Short:   "used to retrieve student data",
 		Long:    "get student details by student_id as string as a parameter",
-		Example: "./simd q leave Get-Student cosmos1dcfxmfchss6r3rlqly8m3jc05538w7xgvtmyua",
+		Example: "./lmsd q leave Get-Student cosmos1dcfxmfchss6r3rlqly8m3jc05538w7xgvtmyua",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientQueryContext(cmd)
 			if err != nil {
@@ -106,7 +106,7 @@ func GetAllStudent() *cobra.Command {
 		Use:     "Get-All-Student",
 		Short:   "used to retrieve data regarding all the students",
 		Long:    "get  all student details by student_id as string as a parameter",
-		Example: "./simd q leave Get-All-Student",
+		Example: "./lmsd q leave Get-All-Student",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientQueryContext(cmd)
 			if err != nil {
@@ -131,7 +131,7 @@ func LeaveStatus() *cobra.Command {
 		Use:     "Leave-Status [StudentAddress]",
 		Short:   "get status of student leave",
 		Long:    "get leave status of the leave",
-		Example: "./simd q leave Leave-Status cosmos1dcfxmfchss6r3rlqly8m3jc05538w7xgvtmyua",
+		Example: "./lmsd q leave Leave-Status cosmos1dcfxmfchss6r3rlqly8m3jc05538w7xgvtmyua",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientQueryContext(cmd)
 			if err != nil {
@@ -157,7 +157,7 @@ func GetAdmin() *cobra.Command {
 		Use:     "get-admin [AdminAddress]",
 		Short:   "Used to get the admin details",
 		Long:    "get leave status of the leave",
-		Example: "./simd q leave get-admin cosmos14qypg0485c6mclvkqfwwwlryy0kqa3hyycdeul",
+		Example: "./lmsd q leave get-admin cosmos14qypg0485c6mclvkqfwwwlryy0kqa3hyycdeul",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientQueryContext(cmd)
 			if err != nil {
