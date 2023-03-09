@@ -30,7 +30,7 @@ func GetLeave() *cobra.Command {
 		Use:     "Get-Student-Leave [StudentAddress]",
 		Short:   "Used to list student leave",
 		Long:    "Used to list student leave for specific user by specifying the student_id",
-		Example: "./simd q leave Get-Student-Leave cosmos1dcfxmfchss6r3rlqly8m3jc05538w7xgvtmyua",
+		Example: "./lmsd q leave Get-Student-Leave cosmos1dcfxmfchss6r3rlqly8m3jc05538w7xgvtmyua",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientQueryContext(cmd)
 			if err != nil {
