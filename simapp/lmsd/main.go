@@ -8,7 +8,7 @@ import (
 
 	lmsapp "leave-cosmos/simapp"
 
-	"leave-cosmos/simapp/simd/cmd"
+	"leave-cosmos/simapp/lmsd/cmd"
 )
 
 func main() {
