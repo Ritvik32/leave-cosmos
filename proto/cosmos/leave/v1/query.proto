@@ -3,35 +3,73 @@ syntax="proto3";
 package cosmos.leave.v1;
 option go_package="x/leave/types";
 import "cosmos/leave/v1/state.proto";
-
-
+import "google/api/annotations.proto" ;
 message GetStudentRequest{
     string id =1;
 }
-
 message GetStudentResponse{
     Student student=1;
-
 }
-
 message ListAllLeavesRequest{
-    
+    string StudentId=1;
 }
 message ListAllLeavesResponse{
     repeated Leave leave=1;
 }
-
 message ListStudentLeaveRequest{
-    string id=1;
+    string stuaddress=1;
+    
 }
 message ListStudentLeaveResponse{
-    repeated Leave leave=1;
+     Leave leave=1;
 }
 
+message GetAllStudentResponse{
+    repeated Student student=1;
+}
+message LeaveStatusRequest{
+    string studentAddress=1; 
+}
+message LeaveStatusResponse{
+    LeaveStatus status=1;
+}
+
+message GetAdminRequest{
+    string adminaddress=1;
+}
+message GetAdminResponse{
+    Admin admin=1;
+}
 service QueryMsg{
-    rpc GetStudent(GetStudentRequest) returns (GetStudentResponse);
-    rpc ListAllLeave(ListAllLeavesRequest) returns (ListAllLeavesResponse);
-    rpc ListStudentLeave(ListStudentLeaveRequest) returns (ListStudentLeaveResponse);
+    rpc GetStudentDetails(GetStudentRequest) returns (GetStudentResponse){
+    option (google.api.http).get   = "/cosmos/lms/v1beta1/studentaddress";
+    };
+    rpc ListAllLeave(ListAllLeavesRequest) returns (ListAllLeavesResponse){
+        option (google.api.http).get   = "/cosmos/lms/v1beta1/studentaddress";
+    };
+    rpc ListStudentLeave(ListStudentLeaveRequest) returns (ListStudentLeaveResponse){
+        option (google.api.http).get   = "/cosmos/lms/v1beta1/studentaddress";
+};
+rpc GetAllStudentDetails(GetStudentRequest) returns (GetAllStudentResponse){
+    option (google.api.http).get   = "/cosmos/lms/v1beta1/studentaddress";
+};
+rpc GetLeaveStatus(LeaveStatusRequest) returns (LeaveStatusResponse){
+    option (google.api.http).get   = "/cosmos/lms/v1beta1/studentaddress";
+};
+rpc GetAdminDetails(GetAdminRequest) returns (GetAdminResponse){
+    option (google.api.http).get   = "/cosmos/lms/v1beta1/studentaddress";
 
 }
+
+
+}
+
+
+
+
+
+
+
+
+
 

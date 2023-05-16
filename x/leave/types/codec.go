@@ -17,10 +17,10 @@ func RegisterLegacyAminoCodec(cdc *codec.LegacyAmino) {
 	legacy.RegisterAminoMsg(cdc, &ApplyLeaveRequest{}, "leave-cosmos/ApplyLeave")
 	legacy.RegisterAminoMsg(cdc, &AcceptLeaveRequest{}, "leave-cosmos/AcceptLeave")
 
-	cdc.RegisterConcrete(&AddAdminRequest{}, "leave-cosmos/CreateAdmin", nil)
-	cdc.RegisterConcrete(&AddStudentRequest{}, "leave-cosmos/CreateStudent", nil)
-	cdc.RegisterConcrete(&ApplyLeaveRequest{}, "leave-cosmos/ApplyLeave", nil)
-	cdc.RegisterConcrete(&AcceptLeaveRequest{}, "leave-cosmos/AcceptLeave", nil)
+	// cdc.RegisterConcrete(&AddAdminRequest{}, "leave-cosmos/CreateAdmin", nil)
+	// cdc.RegisterConcrete(&AddStudentRequest{}, "leave-cosmos/CreateStudent", nil)
+	// cdc.RegisterConcrete(&ApplyLeaveRequest{}, "leave-cosmos/ApplyLeave", nil)
+	// cdc.RegisterConcrete(&AcceptLeaveRequest{}, "leave-cosmos/AcceptLeave", nil)
 
 }
 
